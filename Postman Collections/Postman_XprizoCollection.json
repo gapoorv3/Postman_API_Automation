@@ -1,0 +1,2750 @@
+{
+	"info": {
+		"_postman_id": "1a14b90a-02d4-4707-bfe9-11fd040e7549",
+		"name": "XprizoCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Security",
+			"item": [
+				{
+					"name": "GetToken",
+					"item": [
+						{
+							"name": "Security/GetToken",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "652c1b7c-fd2e-4208-a5b7-042f500b7fdb",
+										"exec": [
+											"try {",
+											"    var jsonData = JSON.parse(responseBody);",
+											"} catch (e) {",
+											"    pm.test(\"Error parsing response body\", function () {",
+											"        pm.expect.fail(\"Failed to parse response body: \" + e.message);",
+											"    });",
+											"}",
+											"",
+											"try {",
+											"    let switchCaseIteration = +pm.globals.get(\"switchCaseIteration\");",
+											"",
+											"    if (switchCaseIteration === 0) {",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Security/GetToken api With Valid Data.--------------------------------\");",
+											"        positiveValidationGetToken(jsonData);",
+											"        pm.environment.set(\"authtoken\", jsonData.token);",
+											"        pm.environment.set(\"userId\", jsonData.id);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Security/GetToken\");",
+											"    } else if (switchCaseIteration === 1) {",
+											"        pm.test(\"------------------------- 2->Check the negative scenario of Security/GetToken API if the username value is invalid. --------------------------------\");",
+											"        invalidUsernameValidationGetToken(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Security/GetToken\");",
+											"    } else if (switchCaseIteration === 2) {",
+											"        pm.test(\"------------------------- 3->Check the negative scenario of Security/GetToken API if the password value is invalid. --------------------------------\");",
+											"        invalidPasswordValidationGetToken(jsonData);",
+											"       pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Security/GetToken\");",
+											"    } else if (switchCaseIteration === 3) {",
+											"        pm.test(\"------------------------- 4->Check the Min username Length scenario of Security/GetToken API Length Should Be Between 3 To 50 Char. --------------------------------\");",
+											"        minMaxUsernameLengthValidationGetToken(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Security/GetToken\");",
+											"    } else if (switchCaseIteration === 4) {",
+											"        pm.test(\"------------------------- 5->Check the Max userName Length scenario of Security/GetToken API Length Should Be Between 3 To 50 Char. --------------------------------\");",
+											"        minMaxUsernameLengthValidationGetToken(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Security/GetToken\");",
+											"    } else if (switchCaseIteration === 5) {",
+											"        pm.test(\"------------------------- 6->Check the userName key value is null scenario of Security/GetToken API --------------------------------\");",
+											"        nullUsernameValidationGetToken(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Security/GetToken\");",
+											"    } else if (switchCaseIteration === 6) {",
+											"        pm.test(\"------------------------- 7->Check the password key value is null scenario of Security/GetToken API --------------------------------\");",
+											"        nullPasswordValidationGetToken(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(\"Preference/AllowableCurrencies\");",
+											"    } else {",
+											"        pm.test(\"Something Went Wrong!\", function () {",
+											"            pm.expect.fail(\"Something Went Wrong! The Http Status Code recived From The API is = \" +pm.response.code +\"switchCaseIteration Value =\"+pm.globals.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(null);",
+											"    }",
+											"} catch (e) {",
+											"    pm.test(\"Something Went Wrong\", function () {",
+											"        pm.expect.fail(\"Failed to validate test\" + e.message);",
+											"    });",
+											"}",
+											"",
+											"    function positiveValidationGetToken(jsonData) {",
+											"        pm.test(\"Validate Response status code is 200\", function () {",
+											"            pm.response.to.have.status(200)",
+											"        });",
+											"",
+											"        pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"        });",
+											"",
+											"        pm.test(\"Validate Token should not be empty\", function () {",
+											"            pm.expect(jsonData.token).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Token should not be empty\");",
+											"        });",
+											"",
+											"        pm.test(\"Validate the statusCode is 0\", function () {",
+											"            pm.expect(jsonData.statusCode).to.eql(0);",
+											"        });",
+											"",
+											"        pm.test(\"Validate the status should be a null\", function () {",
+											"            pm.expect(jsonData.status).to.eql(null);",
+											"        });",
+											"",
+											"    }",
+											"",
+											"    function invalidUsernameValidationGetToken(jsonData) {",
+											"        pm.test(\"Validate Response status code is 400\", function () {",
+											"            pm.response.to.have.status(400);",
+											"        });",
+											"",
+											"        pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"        });",
+											"",
+											"        pm.test(\"Validate the statusCode is 400\", function () {",
+											"            pm.expect(jsonData.statusCode).to.eql(400);",
+											"        });",
+											"",
+											"        pm.test(\"Validate the status is BadRequest\", function () {",
+											"            pm.expect(jsonData.status).to.eql(\"BadRequest\");",
+											"        });",
+											"",
+											"        pm.test(\"Validate the errorCode is 125\", function () {",
+											"            pm.expect(jsonData.errorCode).to.eql(125);",
+											"        });",
+											"",
+											"        pm.test(\"Validate the message is Invalid login credentials\", function () {",
+											"            pm.expect(jsonData.message).to.eql(\"Invalid login credentials\");",
+											"        });",
+											"",
+											"    }",
+											"",
+											"    function invalidPasswordValidationGetToken(jsonData) {",
+											"        pm.test(\"Validate Response status code is 400 If I provide Invalid Auth\", function () {",
+											"            pm.response.to.have.status(400);",
+											"        });",
+											"",
+											"        pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"        });",
+											"",
+											"        pm.test(\"Validate the statusCode is 400\", function () {",
+											"            pm.expect(jsonData.statusCode).to.eql(400)",
+											"        });",
+											"",
+											"        pm.test(\"Validate the status is BadRequest\", function () {",
+											"            pm.expect(jsonData.status).to.eql(\"BadRequest\")",
+											"        });",
+											"",
+											"        pm.test(\"Validate the errorCode is 125\", function () {",
+											"            pm.expect(jsonData.errorCode).to.eql(125)",
+											"        });",
+											"        pm.test(\"Validate the message is Invalid login credentials,1\", function () {",
+											"        pm.expect(jsonData.message).to.eql(\"Invalid login credentials,1\")",
+											"",
+											"        });",
+											"        ",
+											"    }",
+											"",
+											"    function minMaxUsernameLengthValidationGetToken(jsonData) {",
+											"        pm.test(\"Validate Response status code is 400\", function () {",
+											"            pm.response.to.have.status(400);",
+											"        });",
+											"",
+											"        pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"        });",
+											"",
+											"        pm.test(\"Validate the statusCode is 400\", function () {",
+											"            pm.expect(jsonData.statusCode).to.eql(400)",
+											"        });",
+											"",
+											"        pm.test(\"Validate the status is BadRequest\", function () {",
+											"            pm.expect(jsonData.status).to.eql(\"BadRequest\")",
+											"        });",
+											"",
+											"        pm.test(\"Validate the errorCode is 167\", function () {",
+											"            pm.expect(jsonData.errorCode).to.eql(167)",
+											"        });",
+											"        pm.test(\"Validate the message is Name must be between 3 and 50 characters\", function () {",
+											"        pm.expect(jsonData.message).to.eql(\"Name must be between 3 and 50 characters\")",
+											"",
+											"        });",
+											"        ",
+											"    }",
+											"",
+											"    function nullPasswordValidationGetToken(jsonData) {",
+											"        pm.test(\"Validate Response status code is 400 If I provide Null password\", function () {",
+											"            pm.response.to.have.status(400);",
+											"        });",
+											"",
+											"        pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"        });",
+											"",
+											"        pm.test(\"Validate the statusCode is 400\", function () {",
+											"            pm.expect(jsonData.statusCode).to.eql(400)",
+											"        });",
+											"",
+											"        pm.test(\"Validate the status is BadRequest\", function () {",
+											"            pm.expect(jsonData.status).to.eql(\"BadRequest\")",
+											"        });",
+											"",
+											"        pm.test(\"Validate the errorCode is 125\", function () {",
+											"            pm.expect(jsonData.errorCode).to.eql(125)",
+											"        });",
+											"        pm.test(\"Validate the message is Invalid login credentials,3\", function () {",
+											"        pm.expect(jsonData.message).to.eql(\"Invalid login credentials,3\")",
+											"",
+											"        });",
+											"        ",
+											"    }",
+											"     function nullUsernameValidationGetToken(jsonData) {",
+											"        pm.test(\"Validate Response status code is 400\", function () {",
+											"            pm.response.to.have.status(400);",
+											"        });",
+											"",
+											"        pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"        });",
+											"",
+											"        pm.test(\"Validate the statusCode is 400\", function () {",
+											"            pm.expect(jsonData.statusCode).to.eql(400)",
+											"        });",
+											"",
+											"        pm.test(\"Validate the status is BadRequest\", function () {",
+											"            pm.expect(jsonData.status).to.eql(\"BadRequest\")",
+											"        });",
+											"",
+											"        pm.test(\"Validate the errorCode is 125\", function () {",
+											"            pm.expect(jsonData.errorCode).to.eql(125)",
+											"        });",
+											"        pm.test(\"Validate the message is Invalid login credentials,2\", function () {",
+											"        pm.expect(jsonData.message).to.eql(\"Invalid login credentials,2\")",
+											"",
+											"        });",
+											"        ",
+											"    }"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "657bae8b-b927-4f2d-b8b0-0e1b32df7724",
+										"exec": [
+											"let switchCaseIteration= +pm.environment.get(\"switchCaseIteration\");",
+											"function CommontestData()  {",
+											"  pm.variables.set(\"userName\", pm.environment.get(\"userName\"));",
+											"  pm.variables.set(\"password\", pm.environment.get(\"password\"));",
+											"  }",
+											"switch(switchCaseIteration) {",
+											"  case 0:",
+											"    CommontestData();",
+											"  break;",
+											"  case 1:",
+											"    CommontestData();",
+											"    pm.variables.set(\"userName\", \"invaldusername\");",
+											"   break;",
+											"  case 2:",
+											"    CommontestData();",
+											"    pm.variables.set(\"password\", \"Invalid@3431\");",
+											"  break;",
+											"   case 3:",
+											"    CommontestData();",
+											"   pm.variables.set(\"userName\", [...Array(2)].map(() => String.fromCharCode(97 + Math.floor(Math.random() * 26))).join(''));",
+											"  break;",
+											"  case 4:",
+											"    CommontestData();",
+											"   pm.variables.set(\"userName\", [...Array(51)].map(() => String.fromCharCode(97 + Math.floor(Math.random() * 26))).join(''));",
+											"  break;",
+											"  case 5:",
+											"    CommontestData();",
+											"   pm.variables.set(\"userName\", null);",
+											"  case 6:",
+											"    CommontestData();",
+											"   pm.variables.set(\"password\", null);",
+											"  break;",
+											"  default:",
+											"    console.error(\"Invalid switchCaseIteration value:\", switchCaseIteration);",
+											"    pm.environment.set(\"switchCaseIteration\", 0);",
+											"    pm.execution.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "96f84996-0e9e-4f68-a064-35193ab94b83",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "",
+										"value": "https%3A%2F%2Fgetpaypr.com%2F%3Fscreen%3Dpay_someone_screen%2",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"userName\":\"{{userName}}\",\n    \"password\":\"{{password}}\"\n}"
+								},
+								"url": "{{baseUrl}}/api/Security/GetToken"
+							},
+							"response": []
+						}
+					],
+					"id": "892b4a61-fc03-4a62-bcc6-669c5ec38bdf"
+				}
+			],
+			"id": "30a85568-15eb-4287-a903-9ad0955f0774"
+		},
+		{
+			"name": "Preference",
+			"item": [
+				{
+					"name": "AllowableCurrencies",
+					"item": [
+						{
+							"name": "Preference/AllowableCurrencies",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "22ba4957-3cc2-4c0b-aea4-45ba25863393",
+										"exec": [
+											"let switchCaseIteration= +pm.environment.get(\"switchCaseIteration\");",
+											"switch(switchCaseIteration) {",
+											"  case 0:",
+											"  pm.variables.set(\"authtoken\",pm.environment.get(\"authtoken\") );",
+											"  break;",
+											"  case 1:",
+											"  pm.variables.set(\"authtoken\",\"Invalidauthtoken\");",
+											"  break;",
+											"  default:",
+											"    console.error(\"Invalid switchCaseIteration value:\", switchCaseIteration);",
+											"    pm.environment.set(\"switchCaseIteration\", 0);",
+											"    pm.execution.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "9350c0b3-b179-4bf7-bea2-fce1a182d90a",
+										"exec": [
+											"try {",
+											"    let switchCaseIteration = +pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"    if (pm.response.code === 200 && switchCaseIteration === 0) {",
+											"        var jsonData = JSON.parse(responseBody);",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Preference/AllowableCurrencies api With Valid Data.--------------------------------\");",
+											"        positiveValidationAllowableCurrencies(jsonData);",
+											"        var currencyCodes = jsonData.map(currency => currency.code).join(',');",
+											"        pm.environment.set(\"allowableCurrencies\", currencyCodes);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Preference/AllowableCurrencies\");",
+											"    } else if (pm.response.code === 401 && switchCaseIteration === 1) {",
+											"        pm.test(\"------------------------- 2->Negative scenario Of Preference/AllowableCurrencies api With Invalid Auth token.--------------------------------\");",
+											"        invalidAuthValidationAllowableCurrencies(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"         pm.execution.setNextRequest(\"Profile/Get\");",
+											"    } else {",
+											"          pm.test(\"Something Went Wrong!\", function () {",
+											"            pm.expect.fail(\"Something Went Wrong! The Http Status Code recived From The API is = \" +pm.response.code +\"switchCaseIteration Value =\"+pm.globals.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(null);",
+											"    }",
+											"} catch (e) {",
+											"    pm.test(\"Catch Something Went Wrong\", function () {",
+											"        pm.expect.fail(\"Failed to validate test \" + e.message);",
+											"    });",
+											"}",
+											"",
+											"function positiveValidationAllowableCurrencies(jsonData) {",
+											"",
+											"    pm.test(\"Validate Response status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"     pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											"function invalidAuthValidationAllowableCurrencies(jsonData) {",
+											"pm.test(\"Validate Response status code is 401 If I provide Invalid Auth\", function () {",
+											"        pm.response.to.have.status(401);",
+											"    });",
+											"",
+											" pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "5e72eb57-2de4-40c9-9ba2-a99fa7b622b9",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}"
+									}
+								],
+								"url": "{{baseUrl}}/api/Preference/AllowableCurrencies"
+							},
+							"response": []
+						}
+					],
+					"id": "7e9c141e-0052-486c-acb6-10ac51ec3209"
+				}
+			],
+			"id": "b566a4d0-25ad-4e0c-b915-98be3981c963"
+		},
+		{
+			"name": "Profile",
+			"item": [
+				{
+					"name": "Get",
+					"item": [
+						{
+							"name": "Profile/Get",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "faa82349-ebdd-4988-a5cf-80b9e223662b",
+										"exec": [
+											"try {",
+											"    let switchCaseIteration = +pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"    if (pm.response.code === 200 && switchCaseIteration === 0) {",
+											"        var jsonData = JSON.parse(responseBody);",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Profile/Get api With Valid Data.--------------------------------\");",
+											"        positiveScenarioValidationProfileGet(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Profile/Get\");",
+											"    } else if (pm.response.code === 401 && switchCaseIteration === 1) {",
+											"        pm.test(\"------------------------- 2->Negative scenario Of Profile/Get api With Invalid Auth token.--------------------------------\");",
+											"        invalidAuthScenarioValidationProfileGet(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(\"Profile/GetFull\");",
+											"    } else {",
+											"        pm.test(\"Something Went Wrong!\", function () {",
+											"            pm.expect.fail(\"Something Went Wrong! The Http Status Code recived From The API is = \" +pm.response.code +\"switchCaseIteration Value =\"+pm.globals.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(null);",
+											"    }",
+											"} catch (e) {",
+											"    pm.test(\"Catch Something Went Wrong\", function () {",
+											"        pm.expect.fail(\"Failed to validate test \" + e.message);",
+											"    });",
+											"}",
+											"",
+											"function positiveScenarioValidationProfileGet(jsonData) {",
+											"",
+											"    pm.test(\"Validate Response status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"     pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"",
+											"    pm.test(\"Validate id key value should login user Id\", function () {",
+											"        pm.expect(jsonData.id).to.eql(+pm.globals.get(\"userId\"));",
+											"    });",
+											"",
+											"    pm.test(\"Validate under preference object the id key value should login user Id\", function () {",
+											"        pm.expect(jsonData.preference.id).to.eql(+pm.globals.get(\"userId\"));",
+											"    });",
+											"",
+											"    // pm.test(\"Validate allowableCurrencies key value As Expected\", function () {",
+											"    //     pm.expect(jsonData.preference.allowableCurrencies).to.eql(pm.environment.get(\"allowableCurrencies\"));",
+											"    // });",
+											"}",
+											"",
+											"function invalidAuthScenarioValidationProfileGet(jsonData) {",
+											"pm.test(\"Validate Response status code is 401 If I provide Invalid Auth\", function () {",
+											"        pm.response.to.have.status(401);",
+											"    });",
+											"",
+											" pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "9f289794-3aa3-47e3-8582-cc05a1a972da",
+										"exec": [
+											"let switchCaseIteration= +pm.environment.get(\"switchCaseIteration\");",
+											"switch(switchCaseIteration) {",
+											"  case 0:",
+											"  pm.variables.set(\"authtoken\",pm.environment.get(\"authtoken\") );",
+											"  break;",
+											"  case 1:",
+											"  pm.variables.set(\"authtoken\",\"Invalidauthtoken\");",
+											"  break;",
+											"  default:",
+											"    console.error(\"Invalid switchCaseIteration value:\", switchCaseIteration);",
+											"    pm.environment.set(\"switchCaseIteration\", 0);",
+											"    pm.execution.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "07a86c55-6d16-4327-a588-64a8a3134ca5",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}"
+									}
+								],
+								"url": "{{baseUrl}}/api/Profile/Get"
+							},
+							"response": []
+						}
+					],
+					"id": "3056fb7a-87f1-44aa-ad1b-2a0b6fa77923"
+				},
+				{
+					"name": "GetFull",
+					"item": [
+						{
+							"name": "Profile/GetFull",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "331c6b1c-6644-4ca8-842d-3f8d4731802d",
+										"exec": [
+											"let switchCaseIteration= +pm.environment.get(\"switchCaseIteration\");",
+											"switch(switchCaseIteration) {",
+											"  case 0:",
+											"  pm.variables.set(\"authtoken\",pm.environment.get(\"authtoken\"));",
+											"  break;",
+											"  case 1:",
+											"  pm.variables.set(\"authtoken\",\"Invalidauthtoken\");",
+											"  break;",
+											"  default:",
+											"    console.error(\"Invalid switchCaseIteration value:\", switchCaseIteration);",
+											"    pm.environment.set(\"switchCaseIteration\", 0);",
+											"    pm.execution.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "e26cd10d-25d3-4bd9-a5a6-3b1503c10f5c",
+										"exec": [
+											"try {",
+											"    let switchCaseIteration = +pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"    if (switchCaseIteration === 0) {",
+											"        var jsonData = JSON.parse(responseBody);",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Profile/GetFull api With Valid Data.--------------------------------\");",
+											"        positiveScenarioValidationProfileGetFull(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Profile/GetFull\");",
+											"    } else if (switchCaseIteration === 1) {",
+											"        pm.test(\"------------------------- 2->Negative scenario Of Profile/GetFull api With Invalid Auth token.--------------------------------\");",
+											"        invalidAuthScenarioValidationProfileGetFull(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"         pm.execution.setNextRequest(\"Profile/Info\");",
+											"    } else {",
+											"        pm.test(\"Something Went Wrong!\", function () {",
+											"            pm.expect.fail(\"Something Went Wrong! The Http Status Code recived From The API is = \" +pm.response.code +\"switchCaseIteration Value =\"+pm.globals.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(null);",
+											"    }",
+											"} catch (e) {",
+											"    pm.test(\"Catch Something Went Wrong\", function () {",
+											"        pm.expect.fail(\"Failed to validate test \" + e.message);",
+											"    });",
+											"}",
+											"",
+											"function positiveScenarioValidationProfileGetFull(jsonData) {",
+											"",
+											"    pm.test(\"Validate Response status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"",
+											"    pm.test(\"Validate id key value should login user Id\", function () {",
+											"        pm.expect(jsonData.id).to.eql(+pm.globals.get(\"userId\"));",
+											"    });",
+											"",
+											"    pm.test(\"Validate under preference object the id key value should login user Id\", function () {",
+											"        pm.expect(jsonData.preference.id).to.eql(+pm.globals.get(\"userId\"));",
+											"    });",
+											"",
+											"    // pm.test(\"Validate allowableCurrencies key value As Expected\", function () {",
+											"    //     pm.expect(jsonData.preference.allowableCurrencies).to.eql(pm.environment.get(\"allowableCurrencies\"));",
+											"    // });",
+											"}",
+											"",
+											"function invalidAuthScenarioValidationProfileGetFull(jsonData) {",
+											"pm.test(\"Validate Response status code is 401 If I provide Invalid Auth \", function () {",
+											"        pm.response.to.have.status(401);",
+											"    });",
+											"",
+											"pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "cfdd6b23-fcfc-4277-ac4c-ecd4d5ef1f0e",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}"
+									}
+								],
+								"url": "{{baseUrl}}/api/Profile/GetFull"
+							},
+							"response": []
+						}
+					],
+					"id": "2f5dcb1d-d884-4f1a-9668-b780522b2c75"
+				},
+				{
+					"name": "Info",
+					"item": [
+						{
+							"name": "Profile/Info",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "dd475da2-318e-4aed-a619-7488b4998686",
+										"exec": [
+											"let switchCaseIteration= +pm.environment.get(\"switchCaseIteration\");",
+											"switch(switchCaseIteration) {",
+											"  case 0:",
+											"  pm.variables.set(\"value\", pm.environment.get(\"contactUsername\"))",
+											"  pm.variables.set(\"authtoken\",pm.environment.get(\"authtoken\") );",
+											"  break;",
+											"  case 1:",
+											"  pm.variables.set(\"value\", pm.environment.get(\"contactUsername\"))",
+											"  pm.variables.set(\"authtoken\",\"Invalidauthtoken\");",
+											"  break;",
+											"  case 2:",
+											"  pm.variables.set(\"value\",\"invalidvcgfc\");",
+											"  break;",
+											"  case 3:",
+											"  pm.variables.set(\"value\", pm.environment.get(\"contactEmail\"))",
+											"  break;",
+											"  case 4:",
+											"  pm.variables.set(\"value\", encodeURIComponent(pm.environment.get(\"contactMobile\")))",
+											"  break;",
+											"  default:",
+											"    console.error(\"Invalid switchCaseIteration value:\", switchCaseIteration);",
+											"    pm.environment.set(\"switchCaseIteration\", 0);",
+											"    pm.execution.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "e6d38e38-d62e-4a7c-a427-93a588156a9d",
+										"exec": [
+											"try {",
+											"    let switchCaseIteration = +pm.globals.get(\"switchCaseIteration\");",
+											"",
+											"    if (switchCaseIteration === 0) {",
+											"        var jsonData = JSON.parse(responseBody);",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Profile/Info api With Valid contact Username value. --------------------------------\");",
+											"        positiveScenarioValidationProfileInfo(jsonData);",
+											"        pm.environment.set(\"receiverUserId\",jsonData.id);",
+											"        pm.globals.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Profile/Info\");",
+											"    } else if (switchCaseIteration === 1) {",
+											"        pm.test(\"------------------------- 2->Negative scenario Of Profile/Info api With Invalid Auth token.--------------------------------\");",
+											"        invalidAuthScenarioValidationProfileInfo(jsonData);",
+											"        pm.globals.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Profile/Info\");",
+											"    } else if (switchCaseIteration === 2) {",
+											"        pm.test(\"------------------------- 3->Negative scenario Of Profile/Info api With Invalid Contact Username value.--------------------------------\");",
+											"        invalidValueValidationProfileInfo(jsonData);",
+											"        pm.globals.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"         pm.execution.setNextRequest(\"Profile/Info\");",
+											"    } else if (switchCaseIteration === 3) {",
+											"        pm.test(\"------------------------- 4->Postive scenario Of Profile/Info api With valid Contact Email value.--------------------------------\");",
+											"        positiveScenarioValidationProfileInfo(jsonData);",
+											"        pm.globals.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"         pm.execution.setNextRequest(\"Profile/Info\");",
+											"    } else if (switchCaseIteration === 4) {",
+											"        pm.test(\"------------------------- 5->Postive scenario Of Profile/Info api With valid Contact Mobile value.--------------------------------\");",
+											"        positiveScenarioValidationProfileInfo(jsonData);",
+											"        pm.globals.set(\"switchCaseIteration\", 0);",
+											"         pm.execution.setNextRequest(\"Profile/QRCode\");",
+											"    } else {",
+											"        pm.test(\"Something Went Wrong!\", function () {",
+											"            pm.expect.fail(\"Something Went Wrong! The Http Status Code recived From The API is = \" +pm.response.code +\"switchCaseIteration Value =\"+pm.globals.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.globals.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(null);",
+											"    }",
+											"} catch (e) {",
+											"    pm.test(\"Catch Something Went Wrong\", function () {",
+											"        pm.expect.fail(\"Failed to validate test \" + e.message);",
+											"    });",
+											"}",
+											"",
+											"function positiveScenarioValidationProfileInfo(jsonData) {",
+											"",
+											"    pm.test(\"Validate Response status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											"function invalidAuthScenarioValidationProfileInfo(jsonData) {",
+											"pm.test(\"Validate Response status code is 401 If I provide Invalid Auth\", function () {",
+											"        pm.response.to.have.status(401);",
+											"    });",
+											"",
+											"pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											"function invalidValueValidationProfileInfo(jsonData) {",
+											"pm.test(\"Validate Response status code is 204\", function () {",
+											"        pm.response.to.have.status(204);",
+											"    });",
+											"",
+											"pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "469cf91e-c1cd-45a4-aa67-f2fa0f751a24",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Profile/Info?value={{contactUsername}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Profile",
+										"Info"
+									],
+									"query": [
+										{
+											"key": "value",
+											"value": "{{contactUsername}}",
+											"description": "Enter username, email or mobile number"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "446c3301-d8d9-4e46-85d1-6daceb79a55f"
+				},
+				{
+					"name": "QRCode",
+					"item": [
+						{
+							"name": "Profile/QRCode",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "c7f60b0f-c9b6-4400-9a48-fe39aa14d852",
+										"exec": [
+											"try {",
+											"    let switchCaseIteration = +pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"    if (pm.response.code === 200 && switchCaseIteration === 0) {",
+											"        var jsonData = JSON.parse(responseBody);",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Profile/QRCode api With Valid Data.--------------------------------\");",
+											"        positiveScenarioValidationProfileQRCode(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Profile/QRCode\");",
+											"    } else if (pm.response.code === 401 && switchCaseIteration === 1) {",
+											"        pm.test(\"------------------------- 2->Negative scenario Of Profile/QRCode api With Invalid Auth token.--------------------------------\");",
+											"        invalidAuthScenarioValidationProfileQRCode(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"         pm.execution.setNextRequest(\"Profile/IsLocked\");",
+											"    } else {",
+											"        pm.test(\"Something Went Wrong!\", function () {",
+											"            pm.expect.fail(\"Something Went Wrong! The Http Status Code recived From The API is = \" +pm.response.code +\"switchCaseIteration Value =\"+pm.globals.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(null);",
+											"    }",
+											"} catch (e) {",
+											"    pm.test(\"Catch Something Went Wrong\", function () {",
+											"        pm.expect.fail(\"Failed to validate test \" + e.message);",
+											"    });",
+											"}",
+											"",
+											"function positiveScenarioValidationProfileQRCode(jsonData) {",
+											"",
+											"    pm.test(\"Validate Response status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"     pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"",
+											"    pm.test(\"Validate id key value should login user Id\", function () {",
+											"        pm.expect(jsonData.id).to.eql(+pm.globals.get(\"userId\"));",
+											"    });",
+											"",
+											"    pm.test(\"Description value should not be empty\", function () {",
+											"    pm.expect(jsonData.description).to.not.be.empty;",
+											"    });",
+											"}",
+											"",
+											"function invalidAuthScenarioValidationProfileQRCode(jsonData) {",
+											"pm.test(\"Validate Response status code is 401 If I provide Invalid Auth\", function () {",
+											"        pm.response.to.have.status(401);",
+											"    });",
+											"",
+											" pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "0f410657-ad9d-4ae8-893a-0b67d8b99938",
+										"exec": [
+											"let switchCaseIteration= +pm.environment.get(\"switchCaseIteration\");",
+											"switch(switchCaseIteration) {",
+											"  case 0:",
+											"  pm.variables.set(\"authtoken\",pm.environment.get(\"authtoken\") );",
+											"  break;",
+											"  case 1:",
+											"  pm.variables.set(\"authtoken\",\"Invalidauthtoken\");",
+											"  break;",
+											"  default:",
+											"    console.error(\"Invalid switchCaseIteration value:\", switchCaseIteration);",
+											"    pm.environment.set(\"switchCaseIteration\", 0);",
+											"    pm.execution.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "e26caffd-bc79-4e74-a5dc-7a4d0462b773",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-version",
+										"value": "<string>"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/api/Profile/QRCode"
+							},
+							"response": []
+						}
+					],
+					"id": "8e4c7e50-b5ed-467b-be1f-4e81a6384ea1"
+				},
+				{
+					"name": "IsLocked",
+					"item": [
+						{
+							"name": "Profile/IsLocked",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "d457b3bd-f1e2-4323-b9ca-ffba6acd9d81",
+										"exec": [
+											"let switchCaseIteration= +pm.environment.get(\"switchCaseIteration\");",
+											"switch(switchCaseIteration) {",
+											"  case 0:",
+											"  pm.variables.set(\"authtoken\",pm.environment.get(\"authtoken\"));",
+											"  break;",
+											"  case 1:",
+											"  pm.variables.set(\"authtoken\",\"Invalidauthtoken\");",
+											"  break;",
+											"  default:",
+											"    console.error(\"Invalid switchCaseIteration value:\", switchCaseIteration);",
+											"    pm.environment.set(\"switchCaseIteration\", 0);",
+											"    pm.execution.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "fcd216b6-dd68-4e62-ae7f-9e8d51e98f97",
+										"exec": [
+											"try {",
+											"    let switchCaseIteration = +pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"    if (switchCaseIteration === 0) {",
+											"        var jsonData = JSON.parse(responseBody);",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Profile/IsLocked api With Valid Data.--------------------------------\");",
+											"        positiveScenarioValidationProfileIsLocked(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Profile/IsLocked\");",
+											"    } else if (switchCaseIteration === 1) {",
+											"        pm.test(\"------------------------- 2->Negative scenario Of Profile/IsLocked api With Invalid Auth token.--------------------------------\");",
+											"        invalidAuthScenarioValidationProfileIsLocked(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"         pm.execution.setNextRequest(\"Profile/Unlock\");",
+											"    } else {",
+											"        pm.test(\"Something Went Wrong!\", function () {",
+											"            pm.expect.fail(\"Something Went Wrong! The Http Status Code recived From The API is = \" +pm.response.code +\"switchCaseIteration Value =\"+pm.environment.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(null);",
+											"    }",
+											"} catch (e) {",
+											"    pm.test(\"Catch Something Went Wrong\", function () {",
+											"        pm.expect.fail(\"Failed to validate test \" + e.message);",
+											"    });",
+											"}",
+											"",
+											"function positiveScenarioValidationProfileIsLocked(jsonData) {",
+											"",
+											"    pm.test(\"Validate Response status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"",
+											"    pm.test(\"Validate IsLocked API Response should true\", function () {",
+											"        pm.expect(jsonData).to.eql(true);",
+											"    });",
+											"}",
+											"",
+											"function invalidAuthScenarioValidationProfileIsLocked(jsonData) {",
+											"pm.test(\"Validate Response status code is 401 If I provide Invalid Auth\", function () {",
+											"        pm.response.to.have.status(401);",
+											"    });",
+											"",
+											"pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "e315b44f-346f-4e52-8404-5917ca393989",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "x-api-version",
+										"value": "<string>",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/api/Profile/IsLocked"
+							},
+							"response": []
+						}
+					],
+					"id": "9f301b9a-88b5-4bc2-b7af-70304e8940fb"
+				},
+				{
+					"name": "Unlock",
+					"item": [
+						{
+							"name": "Profile/Unlock",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "642225ec-525b-4de6-8efb-932ddf58a8d8",
+										"exec": [
+											"let switchCaseIteration= +pm.environment.get(\"switchCaseIteration\");",
+											"switch (switchCaseIteration) {",
+											"    case 0:",
+											"        pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\"));",
+											"        // Construct the query parameters for Password",
+											"        //otpType  -> 1=App, 2=Email, 3=SMS, 4=Password, 5=Pin, 6=Authenticator",
+											"        //otp   -> the one time pin or password",
+											"        //ttl   -> Number of seconds to stay unlocked (default 180 seconds)",
+											"        pm.variables.set(\"profileUnlockParams\", \"?otpType=4&otp=\"+pm.environment.get(\"password\") + \"&ttl=180\");",
+											"        break;",
+											"    case 1:",
+											"        // Set authtoken variable to \"Invalidauthtoken\" for case 1",
+											"        pm.variables.set(\"authtoken\", \"Invalidauthtoken\");",
+											"        pm.variables.set(\"profileUnlockParams\", \"?otpType=4&otp=\"+pm.environment.get(\"password\") + \"&ttl=180\");",
+											"        break;",
+											"    case 2:",
+											"        pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\"));",
+											"        pm.variables.set(\"profileUnlockParams\", \"?otp=\"+pm.environment.get(\"password\") + \"&ttl=180\");",
+											"        break;",
+											"    case 3:",
+											"        pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\"));",
+											"        pm.variables.set(\"profileUnlockParams\", \"?otpType=15\"+\"&otp=\"+pm.environment.get(\"password\") + \"&ttl=180\");",
+											"        break;",
+											"    case 4:",
+											"        pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\"));",
+											"        pm.variables.set(\"profileUnlockParams\", \"?otpType=4\"+\"&ttl=180\");",
+											"        break;",
+											"    case 5:",
+											"        pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\"));",
+											"        pm.variables.set(\"profileUnlockParams\", \"?otpType=4\" + \"&otp=Inavalid\" + \"&ttl=180\");",
+											"        break;",
+											"",
+											"    default:",
+											"        // Handle invalid switchCaseIteration value",
+											"        console.error(\"Invalid switchCaseIteration value:\", switchCaseIteration);",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(null);",
+											"}",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "9a1b16b7-6500-462e-8d16-54d889fbd429",
+										"exec": [
+											"try {",
+											"    let switchCaseIteration = +pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"    if (switchCaseIteration === 0) {",
+											"        var jsonData = JSON.parse(responseBody);",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Profile/Unlock api With Valid Data.--------------------------------\");",
+											"        positiveScenarioValidationProfileUnlock(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Profile/Unlock\");",
+											"    } else if (switchCaseIteration === 1) {",
+											"        pm.test(\"------------------------- 2->Negative scenario Of Profile/Unlock api With Invalid Auth token.--------------------------------\");",
+											"        invalidAuthScenarioValidationProfileUnlock(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"         pm.execution.setNextRequest(\"Profile/Unlock\");",
+											"    } else if (switchCaseIteration === 2) {",
+											"        var jsonData = JSON.parse(responseBody);",
+											"        pm.test(\"------------------------- 3->Negative scenario Of Profile/Unlock api If OtpType Param Is Missing In the Request Params--------------------------------\");",
+											"        nullOtpTypeValidationProfileUnlock(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"         pm.execution.setNextRequest(\"Profile/Unlock\");",
+											"    } else if (switchCaseIteration === 3) {",
+											"        var jsonData = JSON.parse(responseBody);",
+											"        pm.test(\"------------------------- 4->Negative scenario Of Profile/Unlock api If OtpType Value Is Invalid In the Request Params--------------------------------\");",
+											"        invalidOtpTypeValidationProfileUnlock(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Profile/Unlock\");",
+											"    } else if (switchCaseIteration === 4) {",
+											"        var jsonData = JSON.parse(responseBody);",
+											"        pm.test(\"------------------------- 5->Negative scenario Of Profile/Unlock api If Otp Param Is Missing In the Request Params--------------------------------\");",
+											"        nullOtpValidationProfileUnlock(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Profile/Unlock\");",
+											"    } else if (switchCaseIteration === 5) {",
+											"        var jsonData = JSON.parse(responseBody);",
+											"        pm.test(\"------------------------- 6->Negative scenario Of Profile/Unlock api If Otp Param Is Invalid In the Request Params--------------------------------\");",
+											"        invalidOtpValidationProfileUnlock(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(\"Profile/Lock\");",
+											"    } else {",
+											"        pm.test(\"Something Went Wrong!\", function () {",
+											"            pm.expect.fail(\"Something Went Wrong! The Http Status Code recived From The API is = \" +pm.response.code +\" switchCaseIteration Value =\"+pm.environment.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(null);",
+											"    }",
+											"} catch (e) {",
+											"    pm.test(\"Catch Something Went Wrong\", function () {",
+											"        pm.expect.fail(\"Failed to validate test \" + e.message);",
+											"    });",
+											"}",
+											"",
+											"function positiveScenarioValidationProfileUnlock(jsonData) {",
+											"",
+											"    pm.test(\"Validate Response status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"",
+											"    pm.test(\"Validate Profile/Unlock API Response should 179\", function () {",
+											"        pm.expect(jsonData).to.eql(179);",
+											"    });",
+											"}",
+											"",
+											"function invalidAuthScenarioValidationProfileUnlock(jsonData) {",
+											"pm.test(\"Validate Response status code is 401 If I provide Invalid Auth \", function () {",
+											"        pm.response.to.have.status(401);",
+											"    });",
+											"",
+											"pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											"function nullOtpTypeValidationProfileUnlock(jsonData) {",
+											"        pm.test(\"Validate Response status code is 400 If I provide Invalid Otp type\", function () {",
+											"            pm.response.to.have.status(400);",
+											"        });",
+											"",
+											"        pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"        });",
+											"",
+											"        pm.test(\"Validate the statusCode is 400\", function () {",
+											"            pm.expect(jsonData.statusCode).to.eql(400)",
+											"        });",
+											"",
+											"        pm.test(\"Validate the status is BadRequest\", function () {",
+											"            pm.expect(jsonData.status).to.eql(\"BadRequest\")",
+											"        });",
+											"",
+											"        pm.test(\"Validate the errorCode is 148\", function () {",
+											"            pm.expect(jsonData.errorCode).to.eql(148)",
+											"        });",
+											"        pm.test(\"Validate the message is Invalid OTP Type\", function () {",
+											"        pm.expect(jsonData.message).to.eql(\"Invalid OTP Type\")",
+											"",
+											"        });",
+											"}",
+											"function invalidOtpTypeValidationProfileUnlock(jsonData) {",
+											"        pm.test(\"Validate Response status code is 400 If I provide Invalid Otp type Value\", function () {",
+											"            pm.response.to.have.status(400);",
+											"        });",
+											"",
+											"        pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"        });",
+											"",
+											"        pm.test(\"Validate the statusCode is 400\", function () {",
+											"            pm.expect(jsonData.status).to.eql(400)",
+											"        });",
+											"",
+											"        pm.test(\"Validate the errors is The value '15' is invalid.\", function () {",
+											"        pm.expect(jsonData.errors.otpType[0]).to.eql(\"The value '15' is invalid.\")",
+											"        });",
+											"",
+											"        pm.test(\"Validate the title is One or more validation errors occurred.\", function () {",
+											"        pm.expect(jsonData.title).to.eql(\"One or more validation errors occurred.\")",
+											"        });",
+											"}",
+											"",
+											"function nullOtpValidationProfileUnlock(jsonData) {",
+											"        pm.test(\"Validate Response status code is 400 If I provide Invalid Otp type\", function () {",
+											"            pm.response.to.have.status(400);",
+											"        });",
+											"",
+											"        pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"        });",
+											"",
+											"        pm.test(\"Validate the statusCode is 400\", function () {",
+											"            pm.expect(jsonData.statusCode).to.eql(400)",
+											"        });",
+											"",
+											"        pm.test(\"Validate the status is BadRequest\", function () {",
+											"            pm.expect(jsonData.status).to.eql(\"BadRequest\")",
+											"        });",
+											"",
+											"        pm.test(\"Validate the errorCode is 148\", function () {",
+											"            pm.expect(jsonData.errorCode).to.eql(148)",
+											"        });",
+											"        pm.test(\"Validate the message is Invalid OTP\", function () {",
+											"        pm.expect(jsonData.message).to.eql(\"Invalid OTP\")",
+											"",
+											"        });",
+											"}",
+											"",
+											"function invalidOtpValidationProfileUnlock(jsonData) {",
+											"        pm.test(\"Validate Response status code is 400 If I provide Invalid Otp type\", function () {",
+											"            pm.response.to.have.status(400);",
+											"        });",
+											"",
+											"        pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"        });",
+											"",
+											"        pm.test(\"Validate the statusCode is 400\", function () {",
+											"            pm.expect(jsonData.statusCode).to.eql(400)",
+											"        });",
+											"",
+											"        pm.test(\"Validate the status is BadRequest\", function () {",
+											"            pm.expect(jsonData.status).to.eql(\"BadRequest\")",
+											"        });",
+											"",
+											"        pm.test(\"Validate the errorCode is 125\", function () {",
+											"            pm.expect(jsonData.errorCode).to.eql(125)",
+											"        });",
+											"        pm.test(\"Validate the message is Invalid login credentials,1\", function () {",
+											"        pm.expect(jsonData.message).to.eql(\"Invalid login credentials,1\")",
+											"",
+											"        });",
+											"}",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "da6c0b0d-d100-43c9-a150-97774fbaf495",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-api-version",
+										"value": "<string>",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/api/Profile/Unlock{{profileUnlockParams}}"
+							},
+							"response": []
+						}
+					],
+					"id": "5736cd1a-c408-4153-9d39-e3b110733f9f"
+				},
+				{
+					"name": "Lock",
+					"item": [
+						{
+							"name": "Profile/Lock",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "4d4218d0-5abb-45eb-9f1b-d1e867cdbd8f",
+										"exec": [
+											"let switchCaseIteration= +pm.environment.get(\"switchCaseIteration\");",
+											"switch(switchCaseIteration) {",
+											"  case 0:",
+											"  pm.variables.set(\"authtoken\",pm.environment.get(\"authtoken\"));",
+											"  break;",
+											"  case 1:",
+											"  pm.variables.set(\"authtoken\",\"Invalidauthtoken\");",
+											"  break;",
+											"  default:",
+											"    console.error(\"Invalid switchCaseIteration value:\", switchCaseIteration);",
+											"    pm.environment.set(\"switchCaseIteration\", 0);",
+											"    pm.execution.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "ff064d89-3dca-4245-b51b-c2dc1e904cdf",
+										"exec": [
+											"try {",
+											"    let switchCaseIteration = +pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"    if (switchCaseIteration === 0) {",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Profile/Lock api With Valid Data.--------------------------------\");",
+											"        positiveScenarioValidationProfileLock();",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Profile/Lock\");",
+											"    } else if (switchCaseIteration === 1) {",
+											"        pm.test(\"------------------------- 2->Negative scenario Of Profile/Lock api With Invalid Auth token.--------------------------------\");",
+											"        invalidAuthScenarioValidationProfileLock();",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(null);",
+											"    } else {",
+											"        pm.test(\"Something Went Wrong!\", function () {",
+											"            pm.expect.fail(\"Something Went Wrong! The Http Status Code recived From The API is = \" +pm.response.code +\"switchCaseIteration Value =\"+pm.environment.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(null);",
+											"    }",
+											"} catch (e) {",
+											"    pm.test(\"Catch Something Went Wrong\", function () {",
+											"        pm.expect.fail(\"Failed to validate test \" + e.message);",
+											"    });",
+											"}",
+											"",
+											"function positiveScenarioValidationProfileLock() {",
+											"",
+											"    pm.test(\"Validate Response status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											"function invalidAuthScenarioValidationProfileLock() {",
+											"pm.test(\"Validate Response status code is 401 If I provide Invalid Auth\", function () {",
+											"        pm.response.to.have.status(401);",
+											"    });",
+											"",
+											"pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "d0596a0b-b9a6-4048-a690-ddd7bad947f8",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-api-version",
+										"value": "<string>",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/api/Profile/Lock"
+							},
+							"response": []
+						}
+					],
+					"id": "86cc6d11-3fd0-4e94-ace3-3f867353f9a3"
+				},
+				{
+					"name": "SetPin",
+					"item": [
+						{
+							"name": "Profile/SetPin",
+							"id": "902b0f62-8206-430a-859b-be1d15d061ce",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc0OCIsInVzZXJOYW1lIjoicmlzaGFiaHVzZXIiLCJyb2xlIjoiVXNlciIsInJvbGVOYW1lIjoiVXNlciIsImFjY2VzcyI6Int9IiwiaGFzaCI6IjQxYTQ0MDgzLThiOWItNGJjYS04ZTZjLWIzNGQ0Y2ZkMzAyZi0yMjMuMjU1LjI0NS42NiIsImV4cCI6MTcxMDQ5MDg2NSwiaXNzIjoieHByaXpvLmNvbSIsImF1ZCI6Inhwcml6by5jb20ifQ.R4WBfXZ4dmCTYusCkK5e5ckQWsCq6Csw2IqfpFOAcQw"
+									}
+								},
+								"method": "PUT",
+								"header": [
+									{
+										"key": "x-api-version",
+										"value": "<string>",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{baseUrl}}/api/Profile/SetPin?pin=1234",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"api",
+										"Profile",
+										"SetPin"
+									],
+									"query": [
+										{
+											"key": "pin",
+											"value": "1234"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"id": "52472ebe-9aeb-443d-bced-0531dc26173d"
+				},
+				{
+					"name": "ClearPin",
+					"item": [
+						{
+							"name": "ClearPin",
+							"id": "143b64fe-d07e-48bf-8d20-401b99d2c4d7",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "x-api-version",
+										"value": "<string>",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "text/plain",
+										"type": "text"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}",
+										"type": "text"
+									}
+								],
+								"url": "{{baseUrl}}/api/Profile/ClearPin"
+							},
+							"response": []
+						}
+					],
+					"id": "05ec21cd-88a9-4d4c-a094-a4fd731fca3e"
+				}
+			],
+			"id": "445409f7-5420-456c-a8cf-98c8629683d0"
+		},
+		{
+			"name": "Wallet",
+			"item": [
+				{
+					"name": "List",
+					"item": [
+						{
+							"name": "Wallet/List",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "9d378084-17b3-43db-a983-99cdfa387867",
+										"exec": [
+											"let switchCaseIteration= +pm.environment.get(\"switchCaseIteration\");",
+											"switch(switchCaseIteration) {",
+											"  case 0:",
+											"  pm.variables.set(\"userId\",pm.environment.get(\"userId\"));",
+											"  pm.variables.set(\"authtoken\",pm.environment.get(\"authtoken\") );",
+											"  break;",
+											"  case 1:",
+											"  pm.variables.set(\"userId\",pm.environment.get(\"userId\"));",
+											"  pm.variables.set(\"authtoken\",\"Invalidauthtoken\");",
+											"  break;",
+											"  case 2:",
+											"  pm.variables.set(\"userId\", 123);",
+											"  pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"  break;",
+											"  case 3:",
+											"  pm.variables.set(\"userId\", \"text\");",
+											"  pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"  break;",
+											"  case 4:",
+											"  pm.variables.set(\"userId\", null);",
+											"  pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"  break;",
+											"  default:",
+											"    console.error(\"Invalid switchCaseIteration value:\", switchCaseIteration);",
+											"    pm.environment.set(\"switchCaseIteration\", 0);",
+											"    pm.execution.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "4b26b302-0dcc-43f2-905d-bbd476a8d0ff",
+										"exec": [
+											"try {",
+											"    let switchCaseIteration = +pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"    if (switchCaseIteration === 0) {",
+											"        var jsonData = JSON.parse(responseBody);",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Wallet/List api With Valid userId value. --------------------------------\");",
+											"        positiveScenarioValidationWalletList(jsonData);",
+											"        pm.environment.set(\"walletId\",jsonData[4].id);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Wallet/List\");",
+											"    } else if (switchCaseIteration === 1) {",
+											"        pm.test(\"------------------------- 2->Negative scenario Of Wallet/List api With Invalid Auth token.--------------------------------\");",
+											"        invalidAuthScenarioValidationWalletList(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Wallet/List\");",
+											"    } else if (switchCaseIteration === 2) {",
+											"        pm.test(\"------------------------- 3->Negative scenario Of Wallet/List api With Invalid userId value.--------------------------------\");",
+											"        invalidValueValidationWalletList(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"         pm.execution.setNextRequest(\"Wallet/List\");",
+											"    } else if (switchCaseIteration === 3) {",
+											"        pm.test(\"------------------------- 3->Negative scenario Of Wallet/List api With Invalid text userId value.--------------------------------\");",
+											"        invalidValueValidationWalletList(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Wallet/List\");",
+											"    } else if (switchCaseIteration === 4) {",
+											"        pm.test(\"------------------------- 4->Negative scenario Of Wallet/List api With empty userId value.--------------------------------\");",
+											"        invalidValueValidationWalletList(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(\"Wallet/Options\");",
+											"    } else {",
+											"        pm.test(\"Something Went Wrong!\", function () {",
+											"            pm.expect.fail(\"Something Went Wrong! The Http Status Code recived From The API is = \" +pm.response.code +\"switchCaseIteration Value =\"+pm.environment.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(null);",
+											"    }",
+											"} catch (e) {",
+											"    pm.test(\"Catch Something Went Wrong\", function () {",
+											"        pm.expect.fail(\"Failed to validate test \" + e.message);",
+											"    });",
+											"}",
+											"",
+											"function positiveScenarioValidationWalletList(jsonData) {",
+											"",
+											"    pm.test(\"Validate Response status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											"function invalidAuthScenarioValidationWalletList(jsonData) {",
+											"pm.test(\"Validate Response status code is 401 If I provide Invalid Auth\", function () {",
+											"        pm.response.to.have.status(401);",
+											"    });",
+											"",
+											"pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											"function invalidValueValidationWalletList(jsonData) {",
+											"pm.test(\"Validate Response status code is 204\", function () {",
+											"        pm.response.to.have.status(204);",
+											"    });",
+											"",
+											"pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "6b234e41-7a5f-4d40-89d4-cedfb1ce6657",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "text/plain"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://sprint.xprizo.com/api/Wallet/List?contactId={{userId}}",
+									"protocol": "https",
+									"host": [
+										"sprint",
+										"xprizo",
+										"com"
+									],
+									"path": [
+										"api",
+										"Wallet",
+										"List"
+									],
+									"query": [
+										{
+											"key": "contactId",
+											"value": "{{userId}}"
+										}
+									]
+								},
+								"description": "Generated from cURL: curl -X 'GET' \\\n  'https://sprint.xprizo.com/api/Wallet/List?contactId=455' \\\n  -H 'accept: text/plain'"
+							},
+							"response": []
+						}
+					],
+					"id": "157b66f4-5e1c-4e7a-800d-024d02398f4d"
+				},
+				{
+					"name": "Options",
+					"item": [
+						{
+							"name": "Wallet/Options",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "0e9bd99e-6985-4a23-bfa1-a27ffd24bda7",
+										"exec": [
+											"let switchCaseIteration=+pm.environment.get(\"switchCaseIteration\");",
+											"switch(switchCaseIteration) {",
+											"case 0:",
+											"pm.variables.set(\"walletId\",pm.environment.get(\"walletId\"));",
+											"pm.variables.set(\"authtoken\",pm.environment.get(\"authtoken\"));",
+											"break;",
+											"case 1:",
+											"pm.variables.set(\"walletId\",pm.environment.get(\"walletId\"));",
+											"pm.variables.set(\"authtoken\", \"Invalidauthtoken\");",
+											"break;",
+											"case 2:",
+											"pm.variables.set(\"walletId\", 123);",
+											"pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"break;",
+											"case 3:",
+											"pm.variables.set(\"walletId\", \"text\");",
+											"pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"break;",
+											"case 4:",
+											"pm.variables.set(\"walletId\", null);",
+											"pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"break;",
+											"default:",
+											"console.error(\"Invalid switchCaseIteration value: \", switchCaseIteration);",
+											"pm.environment.set(\"switchCaseIteration\",0);",
+											"pm.execution.setNextRequest(null);",
+											"}"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "33eefe2d-daff-4090-bf2e-76ca6d58f55e",
+										"exec": [
+											"try {",
+											"    let switchCaseIteration = + pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"    if (switchCaseIteration === 0){",
+											"        var jsonData = pm.response.json();",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Wallet/Options api With Valid walletId value. --------------------------------\");",
+											"        positiveScenarioValidationWalletOptions(jsonData);",
+											"        pm.execution.setNextRequest(\"Wallet/Options\");",
+											"        pm.environment.set(\"switchCaseIteration\",switchCaseIteration+1);",
+											"    }",
+											"    else if (switchCaseIteration === 1){",
+											"        pm.test(\"------------------------- 2->Negative scenario Of Wallet/Options api With Invalid Auth token.--------------------------------\");",
+											"        invalidAuthScenarioValidationWalletOptions(jsonData);",
+											"        pm.execution.setNextRequest(\"Wallet/Options\");",
+											"        pm.environment.set(\"switchCaseIteration\",switchCaseIteration+1);",
+											"    }",
+											"    else if (switchCaseIteration === 2){",
+											"        pm.test(\"------------------------- 3->Negative scenario Of Wallet/Options api With Invalid walletId value.--------------------------------\");",
+											"        invalidValueValidationWalletOptions(jsonData);",
+											"        pm.execution.setNextRequest(\"Wallet/Options\");",
+											"        pm.environment.set(\"switchCaseIteration\",switchCaseIteration+1);",
+											"    }else if (switchCaseIteration === 3) {",
+											"        pm.test(\"------------------------- 3->Negative scenario Of Wallet/Options api With Invalid text walletId value.--------------------------------\");",
+											"        invalidValueValidationWalletOptions(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Wallet/Options\");",
+											"    } else if (switchCaseIteration === 4) {",
+											"        pm.test(\"------------------------- 4->Negative scenario Of Wallet/Options api With empty walletId value.--------------------------------\");",
+											"        invalidValueValidationWalletOptions(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(\"api/Wallet\");",
+											"    }",
+											"    else {",
+											"        pm.test(\"Something went wrong!\", function(){",
+											"            pm.expect.fail(\"Something went wrong. The Http Status Code recived From The API is = \" + pm.response.code + \"switchCaseIteration value = \" + pm.environment.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.execution.setNextRequest(null);",
+											"        pm.environment.set(\"switchCaseIteration\",0);",
+											"    }",
+											"} catch (e){",
+											"    pm.test(\"Catch something went wrong\", function(){",
+											"        pm.expect.fail(\"Failed to validate test\"+ e.message);",
+											"    });",
+											"}",
+											"",
+											"function positiveScenarioValidationWalletOptions(jsonData){ ",
+											"    pm.test(\"Validate Response status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											"function invalidAuthScenarioValidationWalletOptions(jsonData) {",
+											"    pm.test(\"Validate Response status code is 401 If I provide Invalid Auth\", function () {",
+											"        pm.response.to.have.status(401);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"function invalidValueValidationWalletOptions(jsonData) {",
+											"    pm.test(\"Validate Response status code is 204\", function () {",
+											"        pm.response.to.have.status(204);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "0169e4bd-187c-4c8f-bfd0-d0dd27020957",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en-GB,en-US;q=0.9,en;q=0.8"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}"
+									},
+									{
+										"key": "Cache-Control",
+										"value": "no-cache"
+									},
+									{
+										"key": "Connection",
+										"value": "keep-alive"
+									},
+									{
+										"key": "Cookie",
+										"value": "ARRAffinity=2f5348e9286ff8a0ca20f70e1250ba5917dc05e63fbb91761c9baf4922fca191; ARRAffinitySameSite=2f5348e9286ff8a0ca20f70e1250ba5917dc05e63fbb91761c9baf4922fca191; _ga_4JD7CYWQPL=GS1.1.1725534647.1.0.1725535228.60.0.0"
+									},
+									{
+										"key": "Pragma",
+										"value": "no-cache"
+									},
+									{
+										"key": "Referer",
+										"value": "https://sprint.xprizo.com/"
+									},
+									{
+										"key": "Sec-Fetch-Dest",
+										"value": "empty"
+									},
+									{
+										"key": "Sec-Fetch-Mode",
+										"value": "cors"
+									},
+									{
+										"key": "Sec-Fetch-Site",
+										"value": "same-origin"
+									},
+									{
+										"key": "Timezone",
+										"value": "Asia/Calcutta"
+									},
+									{
+										"key": "User-Agent",
+										"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+									},
+									{
+										"key": "sec-ch-ua",
+										"value": "\"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\""
+									},
+									{
+										"key": "sec-ch-ua-mobile",
+										"value": "?0"
+									},
+									{
+										"key": "sec-ch-ua-platform",
+										"value": "\"macOS\""
+									},
+									{
+										"key": "x-api-version",
+										"value": ""
+									}
+								],
+								"url": "https://sprint.xprizo.com/api/Wallet/Options/{{walletId}}",
+								"description": "Generated from cURL: curl 'https://sprint.xprizo.com/api/Wallet/Options/1192' \\\n  -H 'Accept: application/json' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ1NSIsInVzZXJOYW1lIjoicmlzaGFiaGFnZW50Iiwicm9sZSI6IkFnZW50Iiwicm9sZU5hbWUiOiJBZ2VudCIsImFjY2VzcyI6IntcIjQxM1wiOjEsXCIyNDdcIjozLFwiNTUxXCI6NSxcIjU0MlwiOjcsXCI1NzZcIjoxLFwiNjAxXCI6NCxcIjY1NFwiOjQsXCI2OTlcIjo3LFwiNzQzXCI6NyxcIjQyNFwiOjcsXCI3NzBcIjo3fSIsImhhc2giOiJlYmM5Y2I0NC03ZmY4LTQxZDktOTZhYS1mZDc1NGVjNmZiNDItMjIzLjI1NS4yNDUuNjYiLCJleHAiOjE3MjU1MzcwMzEsImlzcyI6Inhwcml6by5jb20iLCJhdWQiOiJ4cHJpem8uY29tIn0.Az2QeZUhFvzNk7_OGC_4LSf32P1cS_75TecaUev83ZI' \\\n  -H 'Cache-Control: no-cache' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Cookie: ARRAffinity=2f5348e9286ff8a0ca20f70e1250ba5917dc05e63fbb91761c9baf4922fca191; ARRAffinitySameSite=2f5348e9286ff8a0ca20f70e1250ba5917dc05e63fbb91761c9baf4922fca191; _ga_4JD7CYWQPL=GS1.1.1725534647.1.0.1725535228.60.0.0' \\\n  -H 'Pragma: no-cache' \\\n  -H 'Referer: https://sprint.xprizo.com/' \\\n  -H 'Sec-Fetch-Dest: empty' \\\n  -H 'Sec-Fetch-Mode: cors' \\\n  -H 'Sec-Fetch-Site: same-origin' \\\n  -H 'Timezone: Asia/Calcutta' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36' \\\n  -H 'sec-ch-ua: \"Chromium\";v=\"128\", \"Not;A=Brand\";v=\"24\", \"Google Chrome\";v=\"128\"' \\\n  -H 'sec-ch-ua-mobile: ?0' \\\n  -H 'sec-ch-ua-platform: \"macOS\"' \\\n  -H 'x-api-version;'"
+							},
+							"response": []
+						}
+					],
+					"id": "81c0c76b-0d9e-4e11-b41f-3b14a775d6f4"
+				},
+				{
+					"name": "Wallet",
+					"item": [
+						{
+							"name": "api/Wallet",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "71b107d3-aefd-4984-bacd-33ea1d930e99",
+										"exec": [
+											"try {",
+											"    let switchCaseIteration = + pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"    if (switchCaseIteration === 0){",
+											"        var jsonData = pm.response.json();",
+											"        pm.test(\"------------------------- 1->Positive scenario Of api/Wallet api With Valid walletId value. --------------------------------\");",
+											"        positiveScenarioValidationApiWallet(jsonData);",
+											"        pm.environment.set(\"currencyCode\", jsonData.currencyCode);",
+											"        pm.execution.setNextRequest(\"api/Wallet\");",
+											"        pm.environment.set(\"switchCaseIteration\",switchCaseIteration+1);",
+											"    }",
+											"    else if (switchCaseIteration === 1){",
+											"        pm.test(\"------------------------- 2->Negative scenario Of api/Wallet api With Invalid Auth token.--------------------------------\");",
+											"        invalidAuthScenarioValidationApiWallet(jsonData);",
+											"        pm.execution.setNextRequest(\"api/Wallet\");",
+											"        pm.environment.set(\"switchCaseIteration\",switchCaseIteration+1);",
+											"    }",
+											"    else if (switchCaseIteration === 2){",
+											"        pm.test(\"------------------------- 3->Negative scenario Of api/Wallet api With Invalid walletId value.--------------------------------\");",
+											"        invalidValueValidationApiWallet(jsonData);",
+											"        pm.execution.setNextRequest(\"api/Wallet\");",
+											"        pm.environment.set(\"switchCaseIteration\",switchCaseIteration+1);",
+											"    }else if (switchCaseIteration === 3) {",
+											"        pm.test(\"------------------------- 3->Negative scenario Of api/Wallet api With Invalid text walletId value.--------------------------------\");",
+											"        invalidValueValidationApiWallet(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"api/Wallet\");",
+											"    } else if (switchCaseIteration === 4) {",
+											"        pm.test(\"------------------------- 4->Negative scenario Of api/Wallet api With empty walletId value.--------------------------------\");",
+											"        invalidValueValidationApiWallet(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(\"Wallet/InfoList\");",
+											"    }",
+											"    else {",
+											"        pm.test(\"Something went wrong!\", function(){",
+											"            pm.expect.fail(\"Something went wrong. The Http Status Code recived From The API is = \" + pm.response.code + \"switchCaseIteration value = \" + pm.environment.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.execution.setNextRequest(null);",
+											"        pm.environment.set(\"switchCaseIteration\",0);",
+											"    }",
+											"} catch (e){",
+											"    pm.test(\"Catch something went wrong\", function(){",
+											"        pm.expect.fail(\"Failed to validate test\"+ e.message);",
+											"    });",
+											"}",
+											"",
+											"function positiveScenarioValidationApiWallet(jsonData){ ",
+											"    pm.test(\"Validate Response status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											"function invalidAuthScenarioValidationApiWallet(jsonData) {",
+											"    pm.test(\"Validate Response status code is 401 If I provide Invalid Auth\", function () {",
+											"        pm.response.to.have.status(401);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"function invalidValueValidationApiWallet(jsonData) {",
+											"    pm.test(\"Validate Response status code is 204\", function () {",
+											"        pm.response.to.have.status(204);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "839da166-7596-46d7-b85f-385a9b2b2a38",
+										"exec": [
+											"let switchCaseIteration = + pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"switch (switchCaseIteration){",
+											"case 0:",
+											"    pm.environment.set(\"walletId\", pm. environment.get(\"walletId\"));",
+											"    pm.environment.set(\"authtoken\", pm .environment.get(\"authtoken\"));",
+											"break;",
+											"case 1:",
+											"pm.variables.set(\"walletId\",pm.environment.get(\"walletId\"));",
+											"pm.variables.set(\"authtoken\", \"Invalidauthtoken\");",
+											"break;",
+											"case 2:",
+											"pm.variables.set(\"walletId\", 123);",
+											"pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"break;",
+											"case 3:",
+											"pm.variables.set(\"walletId\", \"text\");",
+											"pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"break;",
+											"case 4:",
+											"pm.variables.set(\"walletId\", null);",
+											"pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"break;",
+											"default:",
+											"console.error(\"Invalid switchCaseIteration value: \", switchCaseIteration);",
+											"pm.environment.set(\"switchCaseIteration\",0);",
+											"pm.execution.setNextRequest(null);",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "39e6099c-f1ea-4dfc-84e5-3681228a5326",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "text/plain"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}",
+										"type": "text"
+									}
+								],
+								"url": "https://sprint.xprizo.com/api/Wallet/{{walletId}}",
+								"description": "Generated from cURL: curl -X 'GET' \\\n  'https://sprint.xprizo.com/api/Wallet/1192' \\\n  -H 'accept: text/plain'"
+							},
+							"response": []
+						}
+					],
+					"id": "dffb6202-2cc1-44ea-a810-be271bd9d846"
+				},
+				{
+					"name": "InfoList",
+					"item": [
+						{
+							"name": "Wallet/InfoList",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "4e170b24-c81e-4200-ae09-438c3c09c89d",
+										"exec": [
+											"try {",
+											"    let switchCaseIteration = + pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"    if (switchCaseIteration === 0){",
+											"        var jsonData = pm.response.json();",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Wallet/InfoList api With Valid receiverUserId value. --------------------------------\");",
+											"        positiveScenarioValidationWalletInfoList(jsonData);",
+											"        pm.environment.set(\"receiverWalletId\",jsonData[2].id);",
+											"        pm.environment.set(\"currencyCode\", jsonData[2].currencyCode);",
+											"        pm.execution.setNextRequest(\"Wallet/InfoList\");",
+											"        pm.environment.set(\"switchCaseIteration\",switchCaseIteration+1);",
+											"    }",
+											"    else if (switchCaseIteration === 1){",
+											"        pm.test(\"------------------------- 2->Negative scenario Of Wallet/InfoList api With Invalid Auth token.--------------------------------\");",
+											"        invalidAuthScenarioValidationWalletInfoList(jsonData);",
+											"        pm.execution.setNextRequest(\"Wallet/InfoList\");",
+											"        pm.environment.set(\"switchCaseIteration\",switchCaseIteration+1);",
+											"    }",
+											"    else if (switchCaseIteration === 2){",
+											"        pm.test(\"------------------------- 3->Negative scenario Of Wallet/InfoList api With Invalid receiverUserId value.--------------------------------\");",
+											"        invalidValueValidationWalletInfoList(jsonData);",
+											"        pm.execution.setNextRequest(\"Wallet/InfoList\");",
+											"        pm.environment.set(\"switchCaseIteration\",switchCaseIteration+1);",
+											"    }else if (switchCaseIteration === 3) {",
+											"        pm.test(\"------------------------- 3->Negative scenario Of Wallet/InfoList api With Invalid text receiverUserId value.--------------------------------\");",
+											"        invalidValueValidationWalletInfoList(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Wallet/InfoList\");",
+											"    } else if (switchCaseIteration === 4) {",
+											"        pm.test(\"------------------------- 4->Negative scenario Of Wallet/InfoList api With empty receiverUserId value.--------------------------------\");",
+											"        invalidValueValidationWalletInfoList(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(\"Transaction/SendPayment\");",
+											"    }",
+											"    else {",
+											"        pm.test(\"Something went wrong!\", function(){",
+											"            pm.expect.fail(\"Something went wrong. The Http Status Code recived From The API is = \" + pm.response.code + \"switchCaseIteration value = \" + pm.environment.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.execution.setNextRequest(null);",
+											"        pm.environment.set(\"switchCaseIteration\",0);",
+											"    }",
+											"} catch (e){",
+											"    pm.test(\"Catch something went wrong\", function(){",
+											"        pm.expect.fail(\"Failed to validate test\"+ e.message);",
+											"    });",
+											"}",
+											"",
+											"function positiveScenarioValidationWalletInfoList(jsonData){ ",
+											"    pm.test(\"Validate Response status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											"function invalidAuthScenarioValidationWalletInfoList(jsonData) {",
+											"    pm.test(\"Validate Response status code is 401 If I provide Invalid Auth\", function () {",
+											"        pm.response.to.have.status(401);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"function invalidValueValidationWalletInfoList(jsonData) {",
+											"    pm.test(\"Validate Response status code is 204\", function () {",
+											"        pm.response.to.have.status(204);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "05699e50-dc0a-4a15-bc96-7ca41b6a13f1",
+										"exec": [
+											"let switchCaseIteration = + pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"switch (switchCaseIteration){",
+											"case 0:",
+											"    pm.environment.set(\"receiverUserId\", pm. environment.get(\"receiverUserId\"));",
+											"    pm.environment.set(\"authtoken\", pm .environment.get(\"authtoken\"));",
+											"break;",
+											"case 1:",
+											"pm.variables.set(\"receiverUserId\",pm.environment.get(\"receiverUserId\"));",
+											"pm.variables.set(\"authtoken\", \"Invalidauthtoken\");",
+											"break;",
+											"case 2:",
+											"pm.variables.set(\"receiverUserId\", 123);",
+											"pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"break;",
+											"case 3:",
+											"pm.variables.set(\"receiverUserId\", \"text\");",
+											"pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"break;",
+											"case 4:",
+											"pm.variables.set(\"receiverUserId\", null);",
+											"pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"break;",
+											"default:",
+											"console.error(\"Invalid switchCaseIteration value: \", switchCaseIteration);",
+											"pm.environment.set(\"switchCaseIteration\",0);",
+											"pm.execution.setNextRequest(null);",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "b77119b5-0b6f-41ed-bf95-ceb928f3e594",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "text/plain"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://sprint.xprizo.com/api/Wallet/InfoList?contact={{receiverUserId}}",
+									"protocol": "https",
+									"host": [
+										"sprint",
+										"xprizo",
+										"com"
+									],
+									"path": [
+										"api",
+										"Wallet",
+										"InfoList"
+									],
+									"query": [
+										{
+											"key": "contact",
+											"value": "{{receiverUserId}}"
+										},
+										{
+											"key": "includeAll",
+											"value": "false",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Generated from cURL: curl -X 'GET' \\\n  'https://sprint.xprizo.com/api/Wallet/InfoList?contact=412&includeAll=false' \\\n  -H 'accept: text/plain'"
+							},
+							"response": []
+						}
+					],
+					"id": "20a76e7d-9175-4ede-a628-0e02e82f7a39"
+				}
+			],
+			"id": "97ac86b3-f038-4dae-99c0-bf8ff42b32e1"
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "Send Payment",
+					"item": [
+						{
+							"name": "Transaction/SendPayment",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "b8f4d1ed-13a9-44b9-9e7f-696fc1a96327",
+										"exec": [
+											"// let switchCaseIteration = + pm.environment.get(\"switchCaseIteration\");",
+											"var randomDescription = \"test\" + Math.floor(Math.random() * 1000);",
+											"",
+											"// switch (switchCaseIteration){",
+											"// case 0:",
+											"//     pm.environment.set(\"receiverUserId\", pm. environment.get(\"receiverUserId\"));",
+											"//     pm.environment.set(\"authtoken\", pm .environment.get(\"authtoken\"));",
+											"    pm.environment.set(\"randomDescription\", randomDescription);",
+											"// break;",
+											"// case 1:",
+											"// pm.variables.set(\"receiverUserId\",pm.environment.get(\"receiverUserId\"));",
+											"// pm.variables.set(\"authtoken\", \"Invalidauthtoken\");",
+											"// pm.environment.set(\"randomDescription\", randomDescription);",
+											"// break;",
+											"// case 2:",
+											"// pm.variables.set(\"receiverUserId\", 123);",
+											"// pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"// pm.environment.set(\"randomDescription\", randomDescription);",
+											"// break;",
+											"// case 3:",
+											"// pm.variables.set(\"receiverUserId\", \"text\");",
+											"// pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"// pm.environment.set(\"randomDescription\", randomDescription);",
+											"// break;",
+											"// case 4:",
+											"// pm.variables.set(\"receiverUserId\", null);",
+											"// pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"// pm.environment.set(\"randomDescription\", randomDescription);",
+											"// break;",
+											"// default:",
+											"// console.error(\"Invalid switchCaseIteration value: \", switchCaseIteration);",
+											"// pm.environment.set(\"switchCaseIteration\",0);",
+											"// pm.execution.setNextRequest(null);",
+											"// }",
+											"",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "0e3da8ba-9257-4093-a54c-49b4bc0e51bc",
+										"exec": [
+											"var jsonData = JSON.parse(responseBody);",
+											"pm.environment.set(\"sendPaymentTxnKey\", jsonData.key);"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "e65aae26-bd2a-49a1-9b11-ffaa2eac22fc",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "accept",
+										"value": "text/plain"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"fromAccountId\": {{walletId}},\n    \"toAccountId\": {{receiverWalletId}},\n    \"currencyCode\": \"{{currencyCode}}\",\n    \"description\": \"{{randomDescription}}\",\n    \"amount\": {{amount}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "https://sprint.xprizo.com/api/Transaction/SendPayment",
+								"description": "Generated from cURL: curl -X 'POST' \\\n  'https://sprint.xprizo.com/api/Transaction/SendPayment' \\\n  -H 'accept: text/plain' \\\n  -H 'Content-Type: application/json' \\\n  -d '{\n  \"description\": \"string\",\n  \"reference\": \"string\",\n  \"amount\": 0,\n  \"currencyCode\": \"string\",\n  \"fromAccountId\": 0,\n  \"toAccountId\": 0\n}'"
+							},
+							"response": []
+						}
+					],
+					"id": "49354919-82dd-4449-b3bf-eac54d1bbbaf"
+				},
+				{
+					"name": "ApprovalAccept",
+					"item": [
+						{
+							"name": "Transaction/ApprovalAccept",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "bb185a11-668a-4878-9fd4-be90eb3ab6d5",
+										"exec": [
+											"let switchCaseIteration = + pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"switch (switchCaseIteration){",
+											"case 0:",
+											"    pm.environment.set(\"sendPaymentTxnKey\", pm. environment.get(\"sendPaymentTxnKey\"));",
+											"    pm.environment.set(\"authtoken\", pm .environment.get(\"authtoken\"));",
+											"break;",
+											"case 1:",
+											"pm.variables.set(\"sendPaymentTxnKey\",pm.environment.get(\"sendPaymentTxnKey\"));",
+											"pm.variables.set(\"authtoken\", \"Invalidauthtoken\");",
+											"break;",
+											"case 2:",
+											"pm.variables.set(\"sendPaymentTxnKey\", 123);",
+											"pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"break;",
+											"case 3:",
+											"pm.variables.set(\"sendPaymentTxnKey\", \"text\");",
+											"pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"break;",
+											"case 4:",
+											"pm.variables.set(\"sendPaymentTxnKey\", null);",
+											"pm.variables.set(\"authtoken\", pm.environment.get(\"authtoken\") );",
+											"break;",
+											"default:",
+											"console.error(\"Invalid switchCaseIteration value: \", switchCaseIteration);",
+											"pm.environment.set(\"switchCaseIteration\",0);",
+											"pm.execution.setNextRequest(null);",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"id": "dcc499ff-bb35-47bb-a70b-385a7d4c95cd",
+										"exec": [
+											"try {",
+											"    let switchCaseIteration = + pm.environment.get(\"switchCaseIteration\");",
+											"",
+											"    if (switchCaseIteration === 0){",
+											"        var jsonData = pm.response.json();",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Transaction/ApprovalAccept api With Valid sendPaymentTxnKey value. --------------------------------\");",
+											"        positiveScenarioValidationTransactionApprovalAccept(jsonData);",
+											"        pm.execution.setNextRequest(\"Transaction/ApprovalAccept\");",
+											"        pm.environment.set(\"switchCaseIteration\",switchCaseIteration+1);",
+											"    }",
+											"    else if (switchCaseIteration === 1){",
+											"        pm.test(\"------------------------- 2->Negative scenario Of Transaction/ApprovalAccept api With Invalid Auth token.--------------------------------\");",
+											"        invalidAuthScenarioValidationTransactionApprovalAccept(jsonData);",
+											"        pm.execution.setNextRequest(\"Transaction/ApprovalAccept\");",
+											"        pm.environment.set(\"switchCaseIteration\",switchCaseIteration+1);",
+											"    }",
+											"    else if (switchCaseIteration === 2){",
+											"        pm.test(\"------------------------- 3->Negative scenario Of Transaction/ApprovalAccept api With Invalid sendPaymentTxnKey value.--------------------------------\");",
+											"        invalidValueValidationTransactionApprovalAccept(jsonData);",
+											"        pm.execution.setNextRequest(\"Transaction/ApprovalAccept\");",
+											"        pm.environment.set(\"switchCaseIteration\",switchCaseIteration+1);",
+											"    }else if (switchCaseIteration === 3) {",
+											"        pm.test(\"------------------------- 3->Negative scenario Of Transaction/ApprovalAccept api With Invalid text sendPaymentTxnKey value.--------------------------------\");",
+											"        invalidValueValidationTransactionApprovalAccept(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", switchCaseIteration + 1);",
+											"        pm.execution.setNextRequest(\"Transaction/ApprovalAccept\");",
+											"    } else if (switchCaseIteration === 4) {",
+											"        pm.test(\"------------------------- 4->Negative scenario Of Transaction/ApprovalAccept api With empty sendPaymentTxnKey value.--------------------------------\");",
+											"        invalidValueValidationTransactionApprovalAccept(jsonData);",
+											"        pm.environment.set(\"switchCaseIteration\", 0);",
+											"        pm.execution.setNextRequest(null);",
+											"    }",
+											"    else {",
+											"        pm.test(\"Something went wrong!\", function(){",
+											"            pm.expect.fail(\"Something went wrong. The Http Status Code recived From The API is = \" + pm.response.code + \"switchCaseIteration value = \" + pm.environment.get(\"switchCaseIteration\"));",
+											"        });",
+											"        pm.execution.setNextRequest(null);",
+											"        pm.environment.set(\"switchCaseIteration\",0);",
+											"    }",
+											"} catch (e){",
+											"    pm.test(\"Catch something went wrong\", function(){",
+											"        pm.expect.fail(\"Failed to validate test\"+ e.message);",
+											"    });",
+											"}",
+											"",
+											"function positiveScenarioValidationTransactionApprovalAccept(jsonData){ ",
+											"    pm.test(\"Validate Response status code is 200\", function () {",
+											"        pm.response.to.have.status(200);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											"function invalidAuthScenarioValidationTransactionApprovalAccept(jsonData) {",
+											"    pm.test(\"Validate Response status code is 401 If I provide Invalid Auth\", function () {",
+											"        pm.response.to.have.status(401);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"function invalidValueValidationTransactionApprovalAccept(jsonData) {",
+											"    pm.test(\"Validate Response status code is 204\", function () {",
+											"        pm.response.to.have.status(204);",
+											"    });",
+											"",
+											"    pm.test(\"Response time is less than \"+pm.environment.get(\"responseTime\")+\"ms\", function () {",
+											"            pm.expect(pm.response.responseTime).to.be.below(+pm.environment.get(\"responseTime\"));",
+											"    });",
+											"}",
+											"",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"id": "d9809a39-4184-45ab-9ae6-78636800e053",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "accept",
+										"value": "text/plain"
+									},
+									{
+										"key": "Authorization",
+										"value": "Bearer {{authtoken}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://sprint.xprizo.com/api/Transaction/ApprovalAccept?key={{sendPaymentTxnKey}}",
+									"protocol": "https",
+									"host": [
+										"sprint",
+										"xprizo",
+										"com"
+									],
+									"path": [
+										"api",
+										"Transaction",
+										"ApprovalAccept"
+									],
+									"query": [
+										{
+											"key": "key",
+											"value": "{{sendPaymentTxnKey}}"
+										},
+										{
+											"key": "pin",
+											"value": "1234",
+											"disabled": true
+										},
+										{
+											"key": "once",
+											"value": "false",
+											"disabled": true
+										}
+									]
+								},
+								"description": "Generated from cURL: curl -X 'GET' \\\n  'https://sprint.xprizo.com/api/Transaction/ApprovalAccept?key=3rere&pin=1234&once=false' \\\n  -H 'accept: text/plain'"
+							},
+							"response": []
+						}
+					],
+					"id": "e65fb8d2-f7d7-4dcf-9f60-279dac06a288"
+				}
+			],
+			"id": "744d5ab8-296b-4ef7-bece-3d04cb9afbe6"
+		},
+		{
+			"name": "https://test.lokipays.com/api/Transaction/CardDeposit",
+			"id": "1d4a7d40-05c3-4460-ae4d-cd0ae4f5720e",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "text/plain; x-api-version=1.0"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-GB,en;q=0.9"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "no-cache"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json; x-api-version=1.0"
+					},
+					{
+						"key": "Cookie",
+						"value": "ARRAffinity=6eb3a21e3964ba0d808cc889e0f3c32756124416431e84310f27826bd56fae62; ARRAffinitySameSite=6eb3a21e3964ba0d808cc889e0f3c32756124416431e84310f27826bd56fae62; ARRAffinity=f9278b2a2ee727f85851eeadb7c4d46bd30cf06c77fb037b25a58ee22ce5e320; ARRAffinitySameSite=f9278b2a2ee727f85851eeadb7c4d46bd30cf06c77fb037b25a58ee22ce5e320; ARRAffinity=15df360192d4c28f3e43c8c7c53826043ebe3d1ba5c67a4ec687bd1213ec86cb; ARRAffinitySameSite=15df360192d4c28f3e43c8c7c53826043ebe3d1ba5c67a4ec687bd1213ec86cb"
+					},
+					{
+						"key": "Origin",
+						"value": "https://test.xprizo.com"
+					},
+					{
+						"key": "Pragma",
+						"value": "no-cache"
+					},
+					{
+						"key": "Referer",
+						"value": "https://test.xprizo.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-origin"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\"Not_A Brand\";v=\"8\", \"Chromium\";v=\"120\", \"Google Chrome\";v=\"120\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"macOS\""
+					},
+					{
+						"key": "x-api-version",
+						"value": "1.0"
+					},
+					{
+						"key": "x-api-key",
+						"value": "14-c9b64815-3199-4384-8cce-63b703d1c5a4"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"description\": \"Payment for Order\",\r\n    \"reference\": \"940_order_364384zelledep4\",\r\n    \"amount\": 60,\r\n    \"accountId\": \"00005\",\r\n    \"customer\": \"GatorX10\",\r\n    \"creditCard\": {\r\n        \"name\": \"TEST\"\r\n    },\r\n    \"customerData\": {\r\n        \"email\": \"test10@testing.com\",\r\n        \"name\": \"TEST\",\r\n        \r\n        \"ipAddress\": \"185.49.168.87\"\r\n    },\r\n    \"routingCode\": \"Zelcos0001\",\r\n    \"sourceType\": \"BankTransfer\",\r\n    \"currencyCode\": \"USD\",\r\n    \"redirect\": \"https:\\/\\/cosrol.com\\/checkout\\/order-received\\/10411\\/?key=wc_order_5Rk5ILDUZ1SYn\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "https://test.lokipays.com/api/Transaction/CardDeposit"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "bc6ccaf8-5c57-4388-91b5-c5cd2f214ca2"
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				],
+				"id": "2a594b28-ac59-4e2d-8b12-e3956f89aa2e"
+			}
+		}
+	]
+}
