@@ -31,7 +31,7 @@
 											"    let switchCaseIteration = +pm.globals.get(\"switchCaseIteration\");",
 											"",
 											"    if (switchCaseIteration === 0) {",
-											"        pm.test(\"------------------------- 1->Positive scenario Of Security/GetToken api With Valid Data.--------------------------------\");",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Security/GetToken api With Valid Data--------------------------------\");",
 											"        positiveValidationGetToken(jsonData);",
 											"        pm.environment.set(\"authtoken\", jsonData.token);",
 											"        pm.environment.set(\"userId\", jsonData.id);",
