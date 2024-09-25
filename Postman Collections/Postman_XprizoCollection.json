@@ -2496,7 +2496,7 @@
 											"",
 											"    if (switchCaseIteration === 0){",
 											"        var jsonData = pm.response.json();",
-											"        pm.test(\"------------------------- 1->Positive scenario Of Transaction/ApprovalAccept api With Valid sendPaymentTxnKey value. --------------------------------\");",
+											"        pm.test(\"------------------------- 1->Positive scenario Of Transaction/ApprovalAccept api With Valid sendPaymentTxnKey value --------------------------------\");",
 											"        positiveScenarioValidationTransactionApprovalAccept(jsonData);",
 											"        pm.execution.setNextRequest(\"Transaction/ApprovalAccept\");",
 											"        pm.environment.set(\"switchCaseIteration\",switchCaseIteration+1);",
