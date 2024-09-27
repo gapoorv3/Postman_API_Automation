@@ -1583,6 +1583,19 @@
 					"item": [
 						{
 							"name": "ClearPin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "96c19ba8-2f7e-4cf5-9093-000960c12dd8",
+										"exec": [
+											"pm.execution.setNextRequest(\"Wallet/List\");"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"id": "143b64fe-d07e-48bf-8d20-401b99d2c4d7",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
