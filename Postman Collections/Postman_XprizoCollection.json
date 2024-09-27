@@ -1433,7 +1433,7 @@
 											"        pm.test(\"------------------------- 2->Negative scenario Of Profile/Lock api With Invalid Auth token.--------------------------------\");",
 											"        invalidAuthScenarioValidationProfileLock();",
 											"        pm.environment.set(\"switchCaseIteration\", 0);",
-											"        pm.execution.setNextRequest(null);",
+											"        pm.execution.setNextRequest(\"Profile/SetPin\");",
 											"    } else {",
 											"        pm.test(\"Something Went Wrong!\", function () {",
 											"            pm.expect.fail(\"Something Went Wrong! The Http Status Code recived From The API is = \" +pm.response.code +\"switchCaseIteration Value =\"+pm.environment.get(\"switchCaseIteration\"));",
@@ -1543,7 +1543,7 @@
 									}
 								],
 								"url": {
-									"raw": "{{baseUrl}}/api/Profile/SetPin?pin=1234",
+									"raw": "{{baseUrl}}/api/Profile/SetPin?pin={{pin}}",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -1555,7 +1555,7 @@
 									"query": [
 										{
 											"key": "pin",
-											"value": "1234"
+											"value": "{{pin}}"
 										}
 									]
 								}
