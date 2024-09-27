@@ -28,7 +28,7 @@
 											"// }",
 											"",
 											"try {",
-											"    let switchCaseIteration = +pm.globals.get(\"switchCaseIteration\");",
+											"    let switchCaseIteration = +pm.environment.get(\"switchCaseIteration\");",
 											"",
 											"    if (switchCaseIteration === 0) {",
 											"        pm.test(\"------------------------- 1->Positive scenario Of Security/GetToken api With Valid Data.--------------------------------\");",
