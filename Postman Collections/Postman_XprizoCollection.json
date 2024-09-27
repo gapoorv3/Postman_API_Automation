@@ -1513,6 +1513,19 @@
 					"item": [
 						{
 							"name": "Profile/SetPin",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "038563a5-9e05-40ec-a07c-8ebba761c2f9",
+										"exec": [
+											"pm.execution.setNextRequest(\"ClearPin\");"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
 							"id": "902b0f62-8206-430a-859b-be1d15d061ce",
 							"protocolProfileBehavior": {
 								"disableBodyPruning": true
