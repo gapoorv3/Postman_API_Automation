@@ -308,7 +308,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"userName\":\"riwdwdwddwdwdwdwdwddwdwdwdwdwdwdwdwdwdwdwdwdwddwdwdwdwdwdwdscfssfffsfsfffsfsfffssffssffs\",\n    \"password\":\"P@ssw0rd\"\n}"
+									"raw": "{\n    \"userName\":\"rishabhagent\",\n    \"password\":null\n}"
 								},
 								"url": "{{baseUrl}}/api/Security/GetToken"
 							},
