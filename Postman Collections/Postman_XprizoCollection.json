@@ -2846,7 +2846,7 @@
 					}
 				},
 				"url": {
-					"raw": "https://sprint.xprizo.com/api/Transaction/CardDeposit?useApprovalProcess=false",
+					"raw": "https://sprint.xprizo.com/api/Transaction/CardDeposit?useApprovalProcess=true",
 					"protocol": "https",
 					"host": [
 						"sprint",
@@ -2861,7 +2861,7 @@
 					"query": [
 						{
 							"key": "useApprovalProcess",
-							"value": "false"
+							"value": "true"
 						}
 					]
 				},
