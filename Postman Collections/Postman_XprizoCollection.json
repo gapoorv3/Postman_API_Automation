@@ -2749,6 +2749,125 @@
 				"url": "https://test.lokipays.com/api/Transaction/CardDeposit"
 			},
 			"response": []
+		},
+		{
+			"name": "https://sprint.xprizo.com/api/Transaction/CardDeposit?useApprovalProcess=true",
+			"id": "4d0ee935-3aae-4fa7-a13d-325d7428b0a7",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept-Language",
+						"value": "en-GB,en-US;q=0.9,en;q=0.8"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgyNyIsInVzZXJOYW1lIjoic2F2aW5nczMiLCJyb2xlIjoiVXNlciIsInJvbGVOYW1lIjoiVXNlciIsImFjY2VzcyI6Int9IiwiaGFzaCI6IjJlMzFjYTY1LTllYzEtNDUyMy04MDVhLTU5NDcxNTcxZmZiZi0yMjMuMjU1LjI0NS42NiIsImV4cCI6MTcyODYyNTU4MSwiaXNzIjoieHByaXpvLmNvbSIsImF1ZCI6Inhwcml6by5jb20ifQ.Ac3xhEBdfryqTdeCAbm6MsPFB1EEcQM9WuMFmAUgqMg"
+					},
+					{
+						"key": "Cache-Control",
+						"value": "no-cache"
+					},
+					{
+						"key": "Connection",
+						"value": "keep-alive"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					},
+					{
+						"key": "Cookie",
+						"value": "ARRAffinity=ff3589f8701548000f18b36d83a9608dd1dca545d591bcbd8d6eeb12991d85fd; ARRAffinitySameSite=ff3589f8701548000f18b36d83a9608dd1dca545d591bcbd8d6eeb12991d85fd; _ga=GA1.1.508540472.1728623716; _ga_4JD7CYWQPL=GS1.1.1728623716.1.0.1728623717.59.0.0"
+					},
+					{
+						"key": "Origin",
+						"value": "https://sprint.xprizo.com"
+					},
+					{
+						"key": "Pragma",
+						"value": "no-cache"
+					},
+					{
+						"key": "Referer",
+						"value": "https://sprint.xprizo.com/"
+					},
+					{
+						"key": "Sec-Fetch-Dest",
+						"value": "empty"
+					},
+					{
+						"key": "Sec-Fetch-Mode",
+						"value": "cors"
+					},
+					{
+						"key": "Sec-Fetch-Site",
+						"value": "same-origin"
+					},
+					{
+						"key": "Timezone",
+						"value": "Asia/Calcutta"
+					},
+					{
+						"key": "User-Agent",
+						"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"macOS\""
+					},
+					{
+						"key": "x-api-version",
+						"value": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"accountId\": 2013,\n    \"transferAccountId\": 2013,\n    \"customer\": \"savings3@yopmail.com \",\n    \"creditCard\": {\n        \"name\": \"s avings3\",\n        \"number\": \"4000002760003184\",\n        \"expiryMonth\": \"12\",\n        \"expiryYear\": 2024,\n        \"cvv\": \"123\"\n    },\n    \"redirect\": \"https://sprint.xprizo.com/#/wallets/827/2013\",\n    \"currencyCode\": \"EUR\",\n    \"description\": \"ed\",\n    \"reference\": \"2013-1728624244249\",\n    \"amount\": 3\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://sprint.xprizo.com/api/Transaction/CardDeposit?useApprovalProcess=false",
+					"protocol": "https",
+					"host": [
+						"sprint",
+						"xprizo",
+						"com"
+					],
+					"path": [
+						"api",
+						"Transaction",
+						"CardDeposit"
+					],
+					"query": [
+						{
+							"key": "useApprovalProcess",
+							"value": "false"
+						}
+					]
+				},
+				"description": "Generated from cURL: curl 'https://sprint.xprizo.com/api/Transaction/CardDeposit?useApprovalProcess=true' \\\n  -H 'Accept: application/json' \\\n  -H 'Accept-Language: en-GB,en-US;q=0.9,en;q=0.8' \\\n  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgyNyIsInVzZXJOYW1lIjoic2F2aW5nczMiLCJyb2xlIjoiVXNlciIsInJvbGVOYW1lIjoiVXNlciIsImFjY2VzcyI6Int9IiwiaGFzaCI6IjJlMzFjYTY1LTllYzEtNDUyMy04MDVhLTU5NDcxNTcxZmZiZi0yMjMuMjU1LjI0NS42NiIsImV4cCI6MTcyODYyNTU4MSwiaXNzIjoieHByaXpvLmNvbSIsImF1ZCI6Inhwcml6by5jb20ifQ.Ac3xhEBdfryqTdeCAbm6MsPFB1EEcQM9WuMFmAUgqMg' \\\n  -H 'Cache-Control: no-cache' \\\n  -H 'Connection: keep-alive' \\\n  -H 'Content-Type: application/json' \\\n  -H 'Cookie: ARRAffinity=ff3589f8701548000f18b36d83a9608dd1dca545d591bcbd8d6eeb12991d85fd; ARRAffinitySameSite=ff3589f8701548000f18b36d83a9608dd1dca545d591bcbd8d6eeb12991d85fd; _ga=GA1.1.508540472.1728623716; _ga_4JD7CYWQPL=GS1.1.1728623716.1.0.1728623717.59.0.0' \\\n  -H 'Origin: https://sprint.xprizo.com' \\\n  -H 'Pragma: no-cache' \\\n  -H 'Referer: https://sprint.xprizo.com/' \\\n  -H 'Sec-Fetch-Dest: empty' \\\n  -H 'Sec-Fetch-Mode: cors' \\\n  -H 'Sec-Fetch-Site: same-origin' \\\n  -H 'Timezone: Asia/Calcutta' \\\n  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/129.0.0.0 Safari/537.36' \\\n  -H 'sec-ch-ua: \"Google Chrome\";v=\"129\", \"Not=A?Brand\";v=\"8\", \"Chromium\";v=\"129\"' \\\n  -H 'sec-ch-ua-mobile: ?0' \\\n  -H 'sec-ch-ua-platform: \"macOS\"' \\\n  -H 'x-api-version;' \\\n  --data-raw '{\"accountId\":2013,\"transferAccountId\":2013,\"customer\":null,\"creditCard\":{\"name\":\"s avings3\",\"number\":\"4000002760003184\",\"expiryMonth\":\"12\",\"expiryYear\":2024,\"cvv\":\"123\"},\"redirect\":\"https://sprint.xprizo.com/#/wallets/827/2013\",\"currencyCode\":\"EUR\",\"description\":\"ed\",\"reference\":\"2013-1728624244247\",\"amount\":3}'"
+			},
+			"response": []
 		}
 	],
 	"event": [
