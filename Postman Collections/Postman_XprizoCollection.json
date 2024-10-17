@@ -308,7 +308,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"userName\":null,\n    \"password\":\"P@ssw0rd\"\n}"
+									"raw": "{\n    \"userName\":\"{{userName}}\",\n    \"password\":\"{{password}}\"\n}"
 								},
 								"url": "{{baseUrl}}/api/Security/GetToken"
 							},
